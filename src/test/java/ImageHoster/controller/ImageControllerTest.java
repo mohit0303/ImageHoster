@@ -1,10 +1,12 @@
-/*
+
 package ImageHoster.controller;
+
 
 import ImageHoster.model.Image;
 import ImageHoster.model.Tag;
 import ImageHoster.model.User;
 import ImageHoster.model.UserProfile;
+import ImageHoster.service.CommentService;
 import ImageHoster.service.ImageService;
 import ImageHoster.service.TagService;
 import org.junit.Test;
@@ -39,6 +41,10 @@ public class ImageControllerTest {
 
     @MockBean
     private TagService tagService;
+
+    @MockBean
+    private CommentService commentService;
+
 
     //This test checks the controller logic to get all the images after the user is logged in the application and checks whether the logic returns the html file 'images.html'
     @Test
@@ -204,7 +210,6 @@ public class ImageControllerTest {
         user.setId(1);
         user.setUsername("Abhi");
         user.setPassword("password1@");
-
         session = new MockHttpSession();
         session.setAttribute("loggeduser", user);
 
@@ -265,7 +270,6 @@ public class ImageControllerTest {
                 .andExpect(redirectedUrl("/images"));
     }
 
-
     //This test checks the controller logic when non owner of the image sends the DELETE request to delete the image and checks whether the Model type object contains the desired attribute with desired value
     @Test
     public void deleteImageWithNonOwnerOfTheImage() throws Exception {
@@ -279,14 +283,13 @@ public class ImageControllerTest {
         user.setId(1);
         user.setUsername("Abhi");
         user.setPassword("password1@");
-
         session = new MockHttpSession();
         session.setAttribute("loggeduser", user);
-
         User user1 = new User();
         UserProfile userProfile1 = new UserProfile();
         userProfile.setId(2);
         userProfile.setEmailAddress("p@gmail.com");
+
         userProfile.setFullName("Prerna");
         userProfile.setMobileNumber("9876543210");
         user.setProfile(userProfile1);
@@ -310,4 +313,4 @@ public class ImageControllerTest {
     }
 }
 
-*/
+
