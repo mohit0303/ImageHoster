@@ -110,4 +110,15 @@ public class ImageRepository {
         }
     }
 
+  /*  public Integer getUserId(Integer imageId) {
+
+        EntityManager em=emf.createEntityManager();
+        TypedQuery<Image> typedQuery=em.createQuery("select i from Image i where i.id=:imageId",Image.class).setParameter("imageId",imageId);
+        Image image = typedQuery.getSingleResult();
+        return image.getUser().getId();
+
+
+    }
+*/
+
 }

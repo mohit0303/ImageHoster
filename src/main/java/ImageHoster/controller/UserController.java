@@ -40,10 +40,23 @@ public class UserController {
     //This controller method is called when the request pattern is of type 'users/registration' and also the incoming request is of POST type
     //This method calls the business logic and after the user record is persisted in the database, directs to login page
     @RequestMapping(value = "users/registration", method = RequestMethod.POST)
-    public String registerUser(User user) {
-        userService.registerUser(user);
-        return "redirect:/users/login";
+    public String registerUser(User user, Model model) {
+        String password = user.getPassword();
+        String passwordValidationError = "Password must contain atleast 1 alphabet, 1 number & 1 special character";
+        Boolean passwordValidation = passwordValidation(password);
+        String error = "Password must contain atleast 1 alphabet, 1 number & 1 special character";
+        if (passwordValidation) {
+            userService.registerUser(user);
+            return "users/login";
+        } else {
+            model.addAttribute("User", user);
+            model.addAttribute("passwordTypeError", passwordValidationError);
+            return "users/registration";
+
+        }
+
     }
+
 
     //This controller method is called when the request pattern is of type 'users/login'
     @RequestMapping("users/login")
@@ -79,4 +92,17 @@ public class UserController {
         model.addAttribute("images", images);
         return "index";
     }
+
+
+    public static boolean passwordValidation(String password) {
+        String[] verifyExpression = {".*[a-zA-Z]+.*", // Character
+                ".*[0-9]+.*", // digits
+                ".*[!@#$%^&*(),.?:{}|<>]+.*"// symbols
+        };
+
+        boolean passwordValidation = (password.matches(verifyExpression[0]) && (password.matches(verifyExpression[1]) && password.matches(verifyExpression[2])));
+        return passwordValidation;
+    }
+
+
 }
